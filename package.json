@@ -1,0 +1,11 @@
+{
+  "name": "lucid.js",
+  "version": "0.1.0",
+  "description": "Custom JSON serializer and parser",
+  "main": "dist/lucid.js",
+  "scripts": {
+    "start": "node demo/app.js"
+  },
+  "author": "Billie Ko <bmkrocks@gmail.com>",
+  "license": "MIT"
+}
