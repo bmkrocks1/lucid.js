@@ -1,5 +1,5 @@
 /**
- * lucid.js - lib/util
+ * lucid.js - util
  *
  * @author Billie Ko<bmkrocks@gmail.com>
  */

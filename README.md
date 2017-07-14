@@ -77,7 +77,7 @@ game.name:"Super Mario Bros",game.numPlayers:2
     {
       id: "e19148f8",
       name: "Arcade Basketball",
-      bar: { baz: "This is fine but will not be serialized." }
+      bar: "This is not going to be included!"
     }
   ]
 }
