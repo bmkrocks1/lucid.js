@@ -1,7 +1,6 @@
 ## lucid.js
 
-Custom JSON serializer and parser for transforming JSON object into a URL-friendly
-location search query string parameter and vise versa.
+Custom JSON serializer and parser for transforming JSON object into a query string parameter and vise versa.
 
 Sample JSON object:
 ```javascript
