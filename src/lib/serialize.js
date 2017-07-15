@@ -3,31 +3,27 @@
  *
  * @author Billie Ko<bmkrocks@gmail.com>
  */
-const util = require('./util'),
-  ERR_SERIALIZE = util.ERR_SERIALIZE,
-  ERR_OBJ_NO_ID = util.ERR_OBJ_NO_ID,
-  ERR_OBJ_NO_NAME = util.ERR_OBJ_NO_NAME,
-  ERR_NESTED_ARRAY = util.ERR_NESTED_ARRAY,
-  ERR_NESTED_OBJ = util.ERR_NESTED_OBJ,
-  error = util.error,
-  pipe = util.pipe,
-  isSNB = util.isSNB,
-  isArray = util.isArray,
-  isObject = util.isObject,
-  hasNameId = util.hasNameId,
-  quote = util.quote,
-  nameId = util.nameId
+const {
+  ERR_SERIALIZE,
+  ERR_OBJ_NO_ID,
+  ERR_OBJ_NO_NAME,
+  ERR_NESTED_ARRAY,
+  ERR_NESTED_OBJ,
+  error, pipe, isSNB, isArray, isObject,
+  hasNameId, quote, nameId
+} = require('./util')
 
 /**
  * Map to array of {k,v} objects
  *
- * @return Array.<Object>
+ * @param {Object} obj
+ * @return {Array.<Object>}
  */
 const map2kvo = obj => Object.keys(obj).map(key => ({ key, value: obj[key] }))
 
 /**
- *
- * @return Array.<String>
+ * @param {Array.<Object>|Array.<String>} arr
+ * @return {Array.<String>}
  */
 const serializeArray = arr =>
   arr.map(x => {
@@ -42,8 +38,8 @@ const serializeArray = arr =>
   })
 
 /**
- *
- * @return Array.<String>
+ * @param {Object} obj
+ * @return {Array.<String>}
  */
 const serializeObject = pipe(
   kvo => map2kvs(kvo, true),
@@ -53,7 +49,9 @@ const serializeObject = pipe(
 /**
  * Map to array of `k:v` strings
  *
- * @return Array.<String>
+ * @param {Array.<Object>} arr
+ * @param {boolean} [nested=false]
+ * @return {Array.<String>}
  */
 const map2kvs = (arr, nested = false) =>
   arr.map(({key, value}) => {
@@ -73,10 +71,20 @@ const map2kvs = (arr, nested = false) =>
     else error(ERR_SERIALIZE, value)
   })
 
+/**
+ * @param {Object} obj
+ * @return {String}
+ */
 const serialize = pipe(
   kvs => kvs.join(','),
   map2kvs,
   map2kvo
 )
 
-module.exports = serialize
+module.exports = {
+  map2kvo,
+  serializeArray,
+  serializeObject,
+  map2kvs,
+  serialize
+}

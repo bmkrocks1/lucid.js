@@ -28,10 +28,10 @@ const hasNameId = x => {
     return false
   }
   else if (!('id' in x) || !x.id) {
-    error(ERR_OBJ_NO_ID, x)
+    error(ERR_OBJ_NO_ID, JSON.stringify(x))
   }
   else if (!('name' in x) || !x.name) {
-    error(ERR_OBJ_NO_NAME, x)
+    error(ERR_OBJ_NO_NAME, JSON.stringify(x))
   }
   else return true
 }
