@@ -14,6 +14,9 @@ const error = (err, x) => {
   throw `${err} - ${x}`
 }
 
+/*
+ * https://gist.github.com/neftaly/6e11268f1cd230094c81
+ */
 const pipe = (...args) => initial => args.reduceRight(
   (result, fn) => fn(result),
   initial
