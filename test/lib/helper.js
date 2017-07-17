@@ -26,14 +26,16 @@ const expectToDeepEqual = (fn, input, output, message) => {
  * @param {Array.<String>} messages
  */
 const expectToDeepEqualAndNotMutate = (fn, input, output, messages) => {
+  // make copy of input
+  let original = isArray(input) ?
+    [...input] :
+    isObject(input) ?
+      Object.assign({}, input) :
+      input
+
   expectToDeepEqual(fn, input, output, messages[0])
 
   it(messages[1], function() {
-    let original = isArray(input) ?
-      [...input] :
-      isObject(input) ?
-        Object.assign({}, input) :
-        input
     expect(input).to.deep.equal(original)
   })
 }
