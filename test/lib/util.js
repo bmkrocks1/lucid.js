@@ -1,7 +1,7 @@
 /**
- * lucid.js - util
+ * lucid.js - test/lib/util
  *
- * @author Billie Ko<bmkrocks@gmail.com>
+ * @author Billie Ko <bmkrocks@gmail.com>
  */
 
 const assert = require('chai').assert

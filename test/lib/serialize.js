@@ -1,7 +1,7 @@
 /**
- * lucid.js - serialize
+ * lucid.js - test/lib/serialize
  *
- * @author Billie Ko<bmkrocks@gmail.com>
+ * @author Billie Ko <bmkrocks@gmail.com>
  */
  const expect = require('chai').expect
  const {
@@ -11,36 +11,15 @@
    map2kvs,
    serialize
  } = require('../../src/lib/serialize')
+ const {
+   expectToDeepEqual,
+   expectToDeepEqualAndNotMutate
+ } = require('./helper')
 
 describe('serialize: map2kvo(obj)', function() {
-   let obj = {
-     name: 'slam dunk',
-     topic: ['arcade', 'basketball'],
-     player: [
-       { id: '6c4d0e6a', name: 'Billie Ko' },
-       { id: 'e19148f8', name: 'Zion' }
-     ],
-     tag: {
-       maxPlayers: 5
-     }
-   }
-
-   it('should return an array of key-value pair objects', function() {
-     expect(map2kvo(obj)).to.deep.equal(
-       [
-         { key: 'name', value: 'slam dunk' },
-         { key: 'topic', value: ['arcade', 'basketball'] },
-         { key: 'player', value: [
-           { id: '6c4d0e6a', name: 'Billie Ko' },
-           { id: 'e19148f8', name: 'Zion' }
-         ]},
-         { key: 'tag', value: { maxPlayers: 5 } }
-       ]
-     )
-   })
-
-   it('should not mutate the obj', function() {
-     expect(obj).to.deep.equal({
+   expectToDeepEqualAndNotMutate(
+     map2kvo,
+     { // input
        name: 'slam dunk',
        topic: ['arcade', 'basketball'],
        player: [
@@ -50,34 +29,8 @@ describe('serialize: map2kvo(obj)', function() {
        tag: {
          maxPlayers: 5
        }
-     })
-   })
- })
-
- describe('serialize: map2kvs(arr)', function() {
-   let arr = [
-     { key: 'name', value: 'slam dunk' },
-     { key: 'topic', value: ['arcade', 'basketball'] },
-     { key: 'player', value: [
-       { id: '6c4d0e6a', name: 'Billie Ko' },
-       { id: 'e19148f8', name: 'Zion' }
-     ]},
-     { key: 'tag', value: { maxPlayers: 5 } }
-   ]
-
-   it('should return an array of `key:value` strings', function() {
-     expect(map2kvs(arr)).to.deep.equal(
-       [
-         'name:"slam dunk"',
-         'topic:(arcade basketball)',
-         'player:("Billie Ko<6c4d0e6a>" Zion<e19148f8>)',
-         'tag.maxPlayers:5'
-       ]
-     )
-   })
-
-   it('should not mutate the arr', function() {
-     expect(arr).to.deep.equal([
+     },
+     [ // output
        { key: 'name', value: 'slam dunk' },
        { key: 'topic', value: ['arcade', 'basketball'] },
        { key: 'player', value: [
@@ -85,83 +38,98 @@ describe('serialize: map2kvo(obj)', function() {
          { id: 'e19148f8', name: 'Zion' }
        ]},
        { key: 'tag', value: { maxPlayers: 5 } }
-     ])
-   })
+     ],
+     [
+       'should return an array of {key, value} objects',
+       'should not mutate the obj'
+     ]
+   )
+ })
+
+ describe('serialize: map2kvs(arr)', function() {
+   expectToDeepEqualAndNotMutate(
+     map2kvs,
+     [ // input
+       { key: 'name', value: 'slam dunk' },
+       { key: 'topic', value: ['arcade', 'basketball'] },
+       { key: 'player', value: [
+         { id: '6c4d0e6a', name: 'Billie Ko' },
+         { id: 'e19148f8', name: 'Zion' }
+       ]},
+       { key: 'tag', value: { maxPlayers: 5 } }
+     ],
+     [ // output
+       'name:"slam dunk"',
+       'topic:(arcade basketball)',
+       'player:("Billie Ko<6c4d0e6a>" Zion<e19148f8>)',
+       'tag.maxPlayers:5'
+     ],
+     [
+       'should return an array of `key:value` strings',
+       'should not mutate the arr'
+     ]
+   )
  })
 
  describe('serialize: serializeObject(obj)', function() {
-   let obj = {
-     bar: "coin",
-     coins: 5000,
-     flag: false
-   }
-
-   it('should return an array of `key:value` strings', function() {
-     expect(serializeObject(obj)).to.deep.equal(
-       [
-         'bar:coin',
-         'coins:5000',
-         'flag:false'
-       ]
-     )
-   })
-
-   it('should not mutate the obj', function() {
-     expect(obj).to.deep.equal({
-       bar: 'coin',
+   expectToDeepEqualAndNotMutate(
+     serializeObject,
+     { // input
+       bar: "coin",
        coins: 5000,
        flag: false
-     })
-   })
+     },
+     [ // output
+       'bar:coin',
+       'coins:5000',
+       'flag:false'
+     ],
+     [
+       'should return an array of `key:value` strings',
+       'should not mutate the obj'
+     ]
+   )
  })
 
  describe('serialize: serializeArray(arr)', function() {
-   let arr = ['arcade', 'basketball', 'power up']
-   let arrObjects = [
-     { id: '6c4d0e6a', name: 'Billie Ko' },
-     { id: 'e19148f8', name: 'Zion' }
-   ]
-
-   it('should return an array of serialized values', function() {
-     expect(serializeArray(arr)).to.deep.equal([
+   expectToDeepEqualAndNotMutate(
+     serializeArray,
+     [ // input
+       'arcade',
+       'basketball',
+       'power up'
+     ],
+     [ // output
        'arcade',
        'basketball',
        '"power up"'
-     ])
-     expect(serializeArray(arrObjects)).to.deep.equal([
-       '"Billie Ko<6c4d0e6a>"',
-       'Zion<e19148f8>'
-     ])
-   })
-
-   it('should not mutate the arr', function() {
-     expect(arr).to.deep.equal(['arcade', 'basketball', 'power up'])
-     expect(arrObjects).to.deep.equal([
+     ],
+     [
+       '(array of strings) should return an array of serialized values',
+       '(array of strings) should not mutate the arr'
+     ]
+   )
+   expectToDeepEqualAndNotMutate(
+     serializeArray,
+     [ // input
        { id: '6c4d0e6a', name: 'Billie Ko' },
        { id: 'e19148f8', name: 'Zion' }
-     ])
-   })
+     ],
+     [ // output
+       '"Billie Ko<6c4d0e6a>"',
+       'Zion<e19148f8>'
+     ],
+     [
+       '(array of objects) should return an array of serialized values',
+       '(array of objects) should not mutate the arr'
+     ]
+   )
  })
 
  describe('serialize: serialize(obj)', function() {
-   let obj = {
-     name: "slam dunk",
-     topic: ["arcade", "basketball"],
-     player: [
-       { id: "6c4d0e6a", name: "Billie Ko" },
-       { id: "e19148f8", name: "Zion" }
-     ],
-     tag: {
-       maxPlayers: 5
-     }
-   }
-
-   it('should return a serialized string', function() {
-     expect(serialize(obj)).to.equal('name:"slam dunk",topic:(arcade basketball),player:("Billie Ko<6c4d0e6a>" Zion<e19148f8>),tag.maxPlayers:5')
-   })
-
-   it('should not mutate the obj', function() {
-     expect(obj).to.deep.equal({
+   expectToDeepEqualAndNotMutate(
+     serialize,
+     { // input
        name: "slam dunk",
        topic: ["arcade", "basketball"],
        player: [
@@ -171,6 +139,12 @@ describe('serialize: map2kvo(obj)', function() {
        tag: {
          maxPlayers: 5
        }
-     })
-   })
+     },
+     // output
+     'name:"slam dunk",topic:(arcade basketball),player:("Billie Ko<6c4d0e6a>" Zion<e19148f8>),tag.maxPlayers:5',
+     [
+       'should return a serialized string',
+       'should not mutate the obj'
+     ]
+   )
  })

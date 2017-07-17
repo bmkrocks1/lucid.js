@@ -1,7 +1,7 @@
 /**
  * lucid.js - serialize
  *
- * @author Billie Ko<bmkrocks@gmail.com>
+ * @author Billie Ko <bmkrocks@gmail.com>
  */
 const {
   ERR_SERIALIZE,

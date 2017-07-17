@@ -1,7 +1,7 @@
 /**
  * lucid.js
  *
- * @author Billie Ko<bmkrocks@gmail.com>
+ * @author Billie Ko <bmkrocks@gmail.com>
  */
 
 const {
@@ -12,10 +12,23 @@ const {
   serialize
 } = require('./lib/serialize')
 
+const {
+  deserializeToArray,
+  deserializeValue,
+  r_map2kvo,
+  r_map2kvs,
+  parse
+} = require('./lib/parse')
+
 module.exports = {
   map2kvo,
   serializeArray,
   serializeObject,
   map2kvs,
-  serialize
+  serialize,
+  deserializeToArray,
+  deserializeValue,
+  r_map2kvo,
+  r_map2kvs,
+  parse
 }
