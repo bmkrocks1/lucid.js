@@ -1,10 +1,19 @@
-## lucid.js
+# lucid.js
 
 Custom JSON serializer and parser.
 
-Sample JSON object:
+## Getting Started
+
+Install package:
+```
+$ npm install --save lucid.js
+```
+
+Usage:
 ```javascript
-{
+import lucid from 'lucid.js';
+
+lucid.serialize({
   name: "slam dunk",
   topic: ["arcade", "basketball"],
   player: [
@@ -14,15 +23,29 @@ Sample JSON object:
   tag: {
     maxPlayers: 5
   }
-}
+})
+
+// name:"slam dunk",topic:(arcade basketball),player:("Billie Ko<6c4d0e6a>" Zion<e19148f8>),tag.maxPlayers:5
+
+lucid.parse('game:pacman,enemies:(red "dark blue"),players:(Luigi<luigi> "Super Mario<mario>" princess),lvl.difficult:true')
+
+/*
+  {
+    game: 'pacman',
+    enemies: ['red', 'dark blue'],
+    players: [
+      { id: 'luigi', name: 'Luigi' },
+      { id: 'mario', name: 'Super Mario' },
+      'princess'
+    ],
+    lvl: {
+      difficult: true
+    }
+  }
+*/
 ```
 
-Output:
-```
-name:"slam dunk",topic:(arcade basketball),player:("Billie Ko<6c4d0e6a>" Zion<e19148f8>),tag.maxPlayers:5
-```
-
-# Do's
+## Do's
 
 #### Single value:
 ```javascript
@@ -87,7 +110,7 @@ Output:
 game:("Super Mario Bros<642c0926>" "Arcade Basketball<e19148f8>")
 ```
 
-# Don'ts
+## Don'ts
 
 #### Nested array:
 ```javascript
