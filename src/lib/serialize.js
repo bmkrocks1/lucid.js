@@ -1,18 +1,11 @@
-/**
- * lucid.js - serialize
- *
- * @author Billie Ko <bmkrocks@gmail.com>
- */
-const {
-  ERR_OBJ_NO_ID,
-  ERR_OBJ_NO_NAME,
+import {
   ERR_NESTED_ARRAY,
   ERR_NESTED_OBJ,
   error, pipe, isSNB, isArray, isObject,
   hasNameId, quote, nameId
-} = require('./util')
+} from './util'
 
-const ERR_SERIALIZE = 'Cannot serialize'
+export const ERR_SERIALIZE = 'Cannot serialize'
 
 /**
  * Map to array of {k,v} objects
@@ -20,13 +13,13 @@ const ERR_SERIALIZE = 'Cannot serialize'
  * @param {Object} obj
  * @return {Array.<Object>}
  */
-const map2kvo = obj => Object.keys(obj).map(key => ({ key, value: obj[key] }))
+export const map2kvo = obj => Object.keys(obj).map(key => ({ key, value: obj[key] }))
 
 /**
  * @param {Array.<Object>|Array.<String>} arr
  * @return {Array.<String>}
  */
-const serializeArray = arr =>
+export const serializeArray = arr =>
   arr.map(x => {
     if (isSNB(x)) {
       return quote(x)
@@ -42,7 +35,7 @@ const serializeArray = arr =>
  * @param {Object} obj
  * @return {Array.<String>}
  */
-const serializeObject = pipe(
+export const serializeObject = pipe(
   kvo => map2kvs(kvo, true),
   map2kvo
 )
@@ -54,7 +47,7 @@ const serializeObject = pipe(
  * @param {boolean} [nested=false]
  * @return {Array.<String>}
  */
-const map2kvs = (arr, nested = false) =>
+export const map2kvs = (arr, nested = false) =>
   arr.map(({key, value}) => {
     if (isSNB(value)) {
       return `${key}:${quote(value)}`
@@ -81,18 +74,9 @@ const check = obj => {
  * @param {Object} obj
  * @return {String}
  */
-const serialize = pipe(
+export const serialize = pipe(
   kvs => kvs.join(','),
   map2kvs,
   map2kvo,
   check
 )
-
-module.exports = {
-  ERR_SERIALIZE,
-  map2kvo,
-  serializeArray,
-  serializeObject,
-  map2kvs,
-  serialize
-}

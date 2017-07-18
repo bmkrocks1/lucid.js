@@ -2,14 +2,40 @@
   "name": "lucid.js",
   "version": "0.1.0",
   "description": "Custom JSON serializer and parser",
-  "main": "dist/lucid.js",
   "scripts": {
-    "test": "npx mocha"
+    "lint": "npx eslint src/**/*.js test/**/*.js",
+    "test": "npx mocha --compilers js:babel-core/register",
+    "prepublish": "npm run lint && npm test && webpack"
   },
   "author": "Billie Ko <bmkrocks@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bmkrocks1/lucid.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bmkrocks1/lucid.js/issues",
+    "email": "bmkrocks@gmail.com"
+  },
+  "main": "dist/lucid.js",
+  "unpkg": "dist/lucid.min.js",
   "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-es2015": "^6.24.1",
     "chai": "*",
-    "mocha": "*"
-  }
+    "eslint": "^4.2.0",
+    "mocha": "*",
+    "webpack": "^3.3.0"
+  },
+  "keywords": [
+    "es6",
+    "json-serializer",
+    "json-parser"
+  ],
+  "files": [
+    "dist"
+  ]
 }

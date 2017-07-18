@@ -1,11 +1,5 @@
-/**
- * lucid.js - test/lib/helper
- *
- * @author Billie Ko <bmkrocks@gmail.com>
- */
-
-const expect = require('chai').expect
-const { isArray, isObject } = require('../../src/lib/util')
+import { expect } from 'chai'
+import { isArray, isObject } from '../src/lib/util'
 
 /**
  * @param {Function} fn
@@ -13,7 +7,7 @@ const { isArray, isObject } = require('../../src/lib/util')
  * @param {(String|Array|Object)} output
  * @param {String} message
  */
-const expectToDeepEqual = (fn, input, output, message) => {
+export const expectToDeepEqual = (fn, input, output, message) => {
   it(message, function() {
     expect(fn(input)).to.deep.equal(output)
   })
@@ -25,7 +19,7 @@ const expectToDeepEqual = (fn, input, output, message) => {
  * @param {(String|Array|Object)} output
  * @param {Array.<String>} messages
  */
-const expectToDeepEqualAndNotMutate = (fn, input, output, messages) => {
+export const expectToDeepEqualAndNotMutate = (fn, input, output, messages) => {
   // make copy of input
   let original = isArray(input) ?
     [...input] :
@@ -40,14 +34,8 @@ const expectToDeepEqualAndNotMutate = (fn, input, output, messages) => {
   })
 }
 
-const expectToThrowError = (fn, input, error, message) => {
+export const expectToThrowError = (fn, input, error, message) => {
   it(message, function() {
     expect(function() { fn(input) }).to.throw(error)
   })
-}
-
-module.exports = {
-  expectToDeepEqual,
-  expectToDeepEqualAndNotMutate,
-  expectToThrowError
 }
