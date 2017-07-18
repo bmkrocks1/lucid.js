@@ -4,13 +4,10 @@
  * @author Billie Ko <bmkrocks@gmail.com>
  */
 
-const ERR_SERIALIZE    = 'Unable to serialize'
 const ERR_OBJ_NO_ID    = "Object does not have a valid property 'id'"
 const ERR_OBJ_NO_NAME  = "Object does not have a valid property 'name'"
 const ERR_NESTED_ARRAY = 'Nested array'
 const ERR_NESTED_OBJ   = 'Nested object'
-
-const ERR_PARSE        = 'Unable to parse string'
 
 const error = (err, x) => {
   throw `${err} - ${x}`
@@ -82,12 +79,10 @@ const parseIntOrBool = x => {
 }
 
 module.exports = {
-  ERR_SERIALIZE,
   ERR_OBJ_NO_ID,
   ERR_OBJ_NO_NAME,
   ERR_NESTED_ARRAY,
   ERR_NESTED_OBJ,
-  ERR_PARSE,
   error, pipe, isSNB, isArray, isObject,
   hasNameId, quote, nameId,
   kvMatches, unQuote, deParen, splitValue, deNameId,

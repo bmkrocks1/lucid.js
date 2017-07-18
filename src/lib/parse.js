@@ -4,10 +4,12 @@
  * @author Billie Ko <bmkrocks@gmail.com>
  */
 const {
-  ERR_PARSE,
   error, pipe,
   kvMatches, unQuote, deParen, splitValue, deNameId,
-  objtfy, parseIntOrBool } = require('./util')
+  objtfy, parseIntOrBool
+} = require('./util')
+
+const ERR_PARSE = 'Cannot parse'
 
 /**
  * @param {Array<Object>} arr
@@ -17,7 +19,7 @@ const r_map2kvo = arr => arr.reduce((kvo, {key, value}) => Object.assign(kvo, {[
 
 const deserializeToArray = (str, key) =>
   splitValue(str).map(x =>
-    objtfy(deNameId(x) || parseIntOrBool(x), key)
+    objtfy(deNameId(x) || parseIntOrBool(unQuote(x)), key)
   )
 
 const deserializeValue = (str, key) => {
@@ -38,6 +40,11 @@ const r_map2kvs = arr => arr.map(kvs => {
   return { key, value: deserializeValue(value, nestedKey) }
 })
 
+const check = str => {
+  if (str && typeof str === 'string') return str
+  else error(ERR_PARSE, str)
+}
+
 /**
  * @param {String} str
  * @return {Object}
@@ -45,10 +52,12 @@ const r_map2kvs = arr => arr.map(kvs => {
 const parse = pipe(
   r_map2kvo,
   r_map2kvs,
-  str => str.split(',')
+  str => str.split(','),
+  check
 )
 
 module.exports = {
+  ERR_PARSE,
   deserializeToArray,
   deserializeValue,
   r_map2kvo,

@@ -4,7 +4,6 @@
  * @author Billie Ko <bmkrocks@gmail.com>
  */
 const {
-  ERR_SERIALIZE,
   ERR_OBJ_NO_ID,
   ERR_OBJ_NO_NAME,
   ERR_NESTED_ARRAY,
@@ -12,6 +11,8 @@ const {
   error, pipe, isSNB, isArray, isObject,
   hasNameId, quote, nameId
 } = require('./util')
+
+const ERR_SERIALIZE = 'Cannot serialize'
 
 /**
  * Map to array of {k,v} objects
@@ -71,6 +72,11 @@ const map2kvs = (arr, nested = false) =>
     else error(ERR_SERIALIZE, value)
   })
 
+const check = obj => {
+  if (obj && isObject(obj)) return obj
+  else error(ERR_SERIALIZE, obj)
+}
+
 /**
  * @param {Object} obj
  * @return {String}
@@ -78,10 +84,12 @@ const map2kvs = (arr, nested = false) =>
 const serialize = pipe(
   kvs => kvs.join(','),
   map2kvs,
-  map2kvo
+  map2kvo,
+  check
 )
 
 module.exports = {
+  ERR_SERIALIZE,
   map2kvo,
   serializeArray,
   serializeObject,

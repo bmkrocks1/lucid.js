@@ -3,18 +3,29 @@
  *
  * @author Billie Ko <bmkrocks@gmail.com>
  */
- const expect = require('chai').expect
- const {
-   map2kvo,
-   serializeArray,
-   serializeObject,
-   map2kvs,
-   serialize
- } = require('../../src/lib/serialize')
- const {
-   expectToDeepEqual,
-   expectToDeepEqualAndNotMutate
- } = require('./helper')
+const expect = require('chai').expect
+
+const {
+  ERR_SERIALIZE,
+  map2kvo,
+  serializeArray,
+  serializeObject,
+  map2kvs,
+  serialize
+} = require('../../src/lib/serialize')
+
+const {
+  ERR_OBJ_NO_ID,
+  ERR_OBJ_NO_NAME,
+  ERR_NESTED_ARRAY,
+  ERR_NESTED_OBJ
+} = require('../../src/lib/util')
+
+const {
+  expectToDeepEqual,
+  expectToDeepEqualAndNotMutate,
+  expectToThrowError
+} = require('./helper')
 
 describe('serialize: map2kvo(obj)', function() {
    expectToDeepEqualAndNotMutate(
@@ -126,7 +137,7 @@ describe('serialize: map2kvo(obj)', function() {
    )
  })
 
- describe('serialize: serialize(obj)', function() {
+ describe('serialize: serialize(obj) SUCCESS', function() {
    expectToDeepEqualAndNotMutate(
      serialize,
      { // input
@@ -146,5 +157,67 @@ describe('serialize: map2kvo(obj)', function() {
        'should return a serialized string',
        'should not mutate the obj'
      ]
+   )
+ })
+
+ describe('serialize: serialize(obj) FAILURE', function() {
+   expectToThrowError(
+     serialize,
+     undefined,
+     `${ERR_SERIALIZE} - undefined`,
+     `throws ${ERR_SERIALIZE} - undefined`
+   )
+
+   expectToThrowError(
+     serialize,
+     12345,
+     `${ERR_SERIALIZE} - 12345`,
+     `throws ${ERR_SERIALIZE} - 12345`
+   )
+
+   expectToThrowError(
+     serialize,
+     {
+       foo: [[1, 2, 3]]
+     },
+     ERR_NESTED_ARRAY,
+     `throws ${ERR_NESTED_ARRAY}`
+   )
+
+   expectToThrowError(
+     serialize,
+     {
+       foo: {
+         bar: {}
+       }
+     },
+     ERR_NESTED_OBJ,
+     `throws ${ERR_NESTED_OBJ}`
+   )
+
+   expectToThrowError(
+     serialize,
+     {
+       foo: [
+         {
+           name: "No ID"
+         }
+       ]
+     },
+     ERR_OBJ_NO_ID,
+     `throws ${ERR_OBJ_NO_ID}`
+   )
+
+   expectToThrowError(
+     serialize,
+     {
+       foo: [
+         {
+           id: "No name"
+         }
+       ]
+     },
+     ERR_OBJ_NO_NAME,
+     `throws ${ERR_OBJ_NO_NAME}`
    )
  })

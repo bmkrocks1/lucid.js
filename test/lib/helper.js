@@ -40,7 +40,14 @@ const expectToDeepEqualAndNotMutate = (fn, input, output, messages) => {
   })
 }
 
+const expectToThrowError = (fn, input, error, message) => {
+  it(message, function() {
+    expect(function() { fn(input) }).to.throw(error)
+  })
+}
+
 module.exports = {
   expectToDeepEqual,
-  expectToDeepEqualAndNotMutate
+  expectToDeepEqualAndNotMutate,
+  expectToThrowError
 }
