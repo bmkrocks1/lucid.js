@@ -1,6 +1,6 @@
 {
   "name": "lucid.js",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Custom JSON serializer and parser",
   "scripts": {
     "lint": "npx eslint src/**/*.js test/**/*.js",
