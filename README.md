@@ -1,6 +1,6 @@
 # lucid.js [![Build Status](https://travis-ci.org/bmkrocks1/lucid.js.svg?branch=master)](https://travis-ci.org/bmkrocks1/lucid.js)
 
-Custom JSON serializer and parser.
+Custom JS object serializer and parser.
 
 ## Getting Started
 
